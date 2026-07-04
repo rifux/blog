@@ -10,7 +10,7 @@ footerNote = "Released as an open-source starter."
 [config.theme]
 # 可用色盘：
 # green-soft, green-vivid, rose-soft, pink-soft, purple-soft, blue-soft, orange-soft, brown-soft
-palette = "green-soft"
+palette = "purple-soft"
 
 [config.fonts]
 # 英文与代码感 UI 字体
