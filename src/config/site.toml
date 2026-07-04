@@ -8,18 +8,18 @@ repository = "https://github.com/dodolalorc/astro-navfolio"
 footerNote = "Released as an open-source starter."
 
 [config.theme]
-# 可用色盘：
+# Available color palettes：
 # green-soft, green-vivid, rose-soft, pink-soft, purple-soft, blue-soft, orange-soft, brown-soft
 palette = "purple-soft"
 
 [config.fonts]
-# 英文与代码感 UI 字体
+# English and code-style UI fonts
 en = "Maple Mono"
 code = "Monaco"
-# 模板内可直接选择：ChillRoundM、LXGW WenKai
-# 中文阅读字体
+# Directly selectable in the template: ChillRoundM, LXGW WenKai
+# Chinese reading font
 zh = "ChillRoundM"
-# 中文完整字体文件
+# Complete Chinese font file path
 file = "/fonts/ChillRoundM.ttf"
 
 [config.code]
@@ -50,11 +50,12 @@ kicker = "Notebook archive"
 subtitle = "Notes from the margins."
 note = "Field notes, drafts, and technical margins arranged for slow browsing."
 postsPerPage = 6
-# date-fns 使用的日期格式模板。
+# Date format template used by date-fns.
 dateFormat = "yyyy-MM-dd"
-# 元信息分隔符。可以使用 "|"、"/" 等符号，也可以使用特殊值 "icon"。
+# Meta information separator. Can use symbols like "|", "/", or the special value "icon".
 metadataSeparator = "icon"
-# 文章列表封面样式："card" 保留带边框的缩略图，"mask" 会将图片融合到右侧。
+# Article list cover image style: "card" keeps the bordered thumbnail,
+# "mask" blends the image into the right side.
 coverImageStyle = "mask"
 
 [config.pages.blog.categories]
