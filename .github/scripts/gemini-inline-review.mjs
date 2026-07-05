@@ -545,7 +545,6 @@ async function deepSeekChat({ messages, config }) {
     messages,
     temperature: config.temperature,
     max_tokens: config.maxOutputTokens,
-    response_format: { type: 'json_object' },
   };
 
   let lastError;
