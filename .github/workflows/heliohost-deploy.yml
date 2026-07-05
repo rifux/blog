@@ -48,6 +48,8 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # lftp looks for this specific env var
         run: |
           lftp <<EOF
+          # prevent silent deployment failures.
+          set cmd:fail-exit yes
           # set host key configurations before opening connection
           set sftp:auto-confirm yes
 
