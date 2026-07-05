@@ -47,16 +47,18 @@ jobs:
           USER: ${{ secrets.FTP_USERNAME }}
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # lftp looks for this specific env var
         run: |
-          lftp <<EOF
-          # config to autoconfirm and exit on fail
-          cat << 'EOF_CONFIG' > ~/.lftprc
-          set sftp:auto-confirm yes
-          set cmd:fail-exit yes
-          EOF_CONFIG
+          # create .ssh directory with secure permissions
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
 
-          # connect using the env-password flag on CLI
+          # map the verified Ed25519 key to the dynamic HOST variable for port 1373
+          echo "[${HOST}]:1373 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICUKISv+ot90TVi+gNiAGWIOK7QoqyV4I8Gxce+V5+l2" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+          # configure LFTP to fail the workflow on any command error
+          echo "set cmd:fail-exit yes" > ~/.lftprc
+
+          # connect and mirror artifacts
           lftp -u "${USER}" --env-password -p 1373 "sftp://${HOST}" <<EOF
-          # mirror to the httpdocs root directory
           lcd ./dist
           mirror -R --delete --verbose . "/${USER}/httpdocs/"
           bye
