@@ -1,8 +1,8 @@
 [config.site]
 title = "rifux ᗜᴗᗜ"
 description = "A personal publication space and systems lounge."
-pageTitle = "rifux | My personal blog! ᗜᴗᗜ"
-pageDescription = "A calm personal publication space for notes, automation, and writing."
+pageTitle = "ifux | DevOps Magician ᗜᴗᗜ"
+pageDescription = "✦ Technical spells, systems deep-dives, and infrastructure automation. Step into the digital workshop of a dreaming researcher."
 url = "https://rifux.dev"
 repository = "https://github.com/rifux/blog"
 footerNote = "Articles from a dreaming researcher!"
