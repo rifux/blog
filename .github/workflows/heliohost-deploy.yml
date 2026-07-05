@@ -1,0 +1,63 @@
+name: Deploy Astro to HelioHost
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install font subsetting tools
+        run: python3 -m pip install --user fonttools brotli --break-system-packages
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build site
+        env:
+          SITE_URL: https://rifux.dev
+          SITE_BASE: /
+          # pop the giscus/waline comment env vars back here if we ever turn them back on
+        run: bun run build
+
+      - name: Install LFTP
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to HelioHost (Plesk) via LFTP
+        env:
+          HOST: ${{ secrets.FTP_SERVER }}
+          USER: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # lftp looks for this specific env var
+        run: |
+          lftp <<EOF
+          # prevent silent deployment failures.
+          set cmd:fail-exit yes
+          # set host key configurations before opening connection
+          set sftp:auto-confirm yes
+
+          # open connection using the env pass
+          open -u "${USER}" --env-password -p 1373 "sftp://${HOST}"
+
+          # mirror to the correct httpdocs root directory
+          lcd ./dist
+          mirror -R --delete --verbose . "/${USER}/httpdocs/"
+          bye
+          EOF
