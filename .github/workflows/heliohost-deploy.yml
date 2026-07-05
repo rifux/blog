@@ -26,7 +26,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install font subsetting tools
-        run: python -m pip install --user fonttools brotli --break-system-packages
+        run: python3 -m pip install --user fonttools brotli --break-system-packages
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -38,19 +38,24 @@ jobs:
           # pop the giscus/waline comment env vars back here if we ever turn them back on
         run: bun run build
 
-      - name: Deploy to HelioHost (Plesk)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+      - name: Install LFTP
+        run: sudo apt-get update && sudo apt-get install -y lftp
 
-          protocol: sftp
-          port: 1373
+      - name: Deploy to HelioHost (Plesk) via LFTP
+        env:
+          HOST: ${{ secrets.FTP_SERVER }}
+          USER: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # lftp looks for this specific env var
+        run: |
+          lftp <<EOF
+          # set host key configurations before opening connection
+          set sftp:auto-confirm yes
 
-          local-dir: ./dist/
+          # open connection using the env pass
+          open -u "${USER}" --env-password -p 1373 "sftp://${HOST}"
 
-          server-dir: /${{ secrets.FTP_USERNAME }}/httpdocs/
-
-          # nuke old files on the server so it doesn't get cluttered with deleted images and old blog posts
-          dangerous-clean-slate: true
+          # mirror to the correct httpdocs root directory
+          lcd ./dist
+          mirror -R --delete --verbose . "/${USER}/httpdocs/"
+          bye
+          EOF
