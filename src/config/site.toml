@@ -18,9 +18,9 @@ en = "Maple Mono"
 code = "Monaco"
 # Directly selectable in the template: ChillRoundM, LXGW WenKai
 # Chinese reading font
-zh = "ChillRoundM"
+zh = "system-ui, -apple-system, sans-serif" # Use system fonts as fallback since I don't use Chinese
 # Complete Chinese font file path
-file = "/fonts/ChillRoundM.ttf"
+file = ""
 
 [config.code]
 lightTheme = "catppuccin-latte"
@@ -151,7 +151,7 @@ text = [
   "automate the mundane,",
   "and engineer a quiet resilience.",
 ]
-image = "/images/logo-with-name.png"
+image = "/images/logo.png"
 
 [config.home.intro]
 title = "here is rifux"
@@ -161,7 +161,7 @@ body = [
   "I craft environments through Infrastructure as Code (IaC), adore pipelines and CI/CD.",
   "This space serves as my lounge and a digital workshop, where I worship Kubernetes and align software in the way it works. ᗜᴗᗜ",
 ]
-image = "/images/logo-cat.png"
+image = "/images/logo.png"
 
 [config.home.latest]
 count = 1
