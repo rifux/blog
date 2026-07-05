@@ -46,7 +46,6 @@ async function generateIcons() {
     fs.mkdirSync(imagesDir, { recursive: true });
   }
 
-  // Save the high-res masked version as your main logo
   console.log('Generating images/logo.png...');
   await sharp(maskedImage).png().toFile(`${imagesDir}/logo.png`);
 
@@ -72,6 +71,15 @@ async function generateIcons() {
     .resize(48, 48, { kernel: 'lanczos3' })
     .png()
     .toFile(`${PUBLIC_DIR}/favicon.ico`);
+
+  console.log('Generating favicon.svg...');
+  const base64Png = maskedImage.toString('base64');
+  const svgContent = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="100%" height="100%">
+  <image href="data:image/png;base64,${base64Png}" x="0" y="0" width="${size}" height="${size}" />
+</svg>
+  `.trim();
+  fs.writeFileSync(`${PUBLIC_DIR}/favicon.svg`, svgContent, 'utf8');
 
   console.log('Done!');
 }
