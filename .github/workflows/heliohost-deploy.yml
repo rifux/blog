@@ -1,0 +1,55 @@
+name: Deploy Astro to HelioHost
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install font subsetting tools
+        run: python -m pip install --user fonttools brotli
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build site
+        env:
+          SITE_URL: https://rifux.dev
+          SITE_BASE: /
+          # pop the giscus/waline comment env vars back here if we ever turn them back on
+        run: bun run build
+
+      - name: Deploy to HelioHost (Plesk)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          protocol: sftp
+          port: 1373
+
+          local-dir: ./dist/
+
+          server-dir: /${{ secrets.FTP_USERNAME }}/httpdocs/
+
+          # nuke old files on the server so it doesn't get cluttered with deleted images and old blog posts
+          dangerous-clean-slate: true
