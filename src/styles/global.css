@@ -6,34 +6,40 @@
   The CSS in this style tag is based off of Bear Blog's default CSS.
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+
+  Soft Violet Palette — psycho-visually tuned:
+  - Hue ~280-285° (warm violet/mauve) for calming warmth without coldness
+  - Near-neutral lines & shadows (chroma < 8%) to avoid visual noise
+  - Slight pink-mauve undertone in accents for "eye-candy" softness
+  - Cream-tinted light surfaces; warm obsidian darks (never pure black/white)
  */
 
 :root {
-  --black: 36, 35, 41;
-  --gray: 115, 111, 124;
-  --gray-light: 226, 220, 235;
-  --gray-dark: 50, 48, 54;
-  --paper-bg: #faf8fc; /* Soft purple-tinted white */
-  --paper-bg-deep: #f3f0f6; /* Soft purple-gray */
-  --paper-surface: #fcfafe; /* Crisp white with a hint of lavender */
-  --paper-surface-muted: #f5f2f8;
-  --paper-surface-rgb: 252, 250, 254;
-  --paper-line: rgba(104, 88, 145, 0.075);
-  --paper-line-strong: rgba(104, 88, 145, 0.12);
-  --paper-ink: #292730;
-  --paper-ink-soft: #696673;
-  --paper-ink-faint: #928f9c;
-  --paper-control: rgba(244, 236, 252, 0.76);
-  --paper-control-hover: rgba(236, 222, 250, 0.92); /* Blends to a much richer purple! */
-  --paper-nav: rgba(252, 250, 254, 0.92);
-  --paper-card-wash-top: rgba(252, 250, 254, 0.78);
-  --paper-card-wash-bottom: rgba(245, 242, 248, 0.52);
-  --paper-page-bg: #faf8fc;
-  --paper-detail-bg: #faf8fc;
+  --black: 38, 37, 44;
+  --gray: 121, 117, 134;
+  --gray-light: 231, 227, 239;
+  --gray-dark: 53, 50, 60;
+  --paper-bg: #faf9fc; /* Warm lavender-tinted white */
+  --paper-bg-deep: #f4f2f8; /* Soft heather lavender */
+  --paper-surface: #fdfcff; /* Crisp white, hint of violet */
+  --paper-surface-muted: #f7f5fb;
+  --paper-surface-rgb: 253, 252, 255;
+  --paper-line: rgba(48, 43, 56, 0.065); /* Near-neutral dark — borders disappear */
+  --paper-line-strong: rgba(48, 43, 56, 0.11);
+  --paper-ink: #2d2b37; /* Soft violet-tinted ink, easier than pure black */
+  --paper-ink-soft: #6f6978;
+  --paper-ink-faint: #9c95a5;
+  --paper-control: rgba(247, 244, 252, 0.78);
+  --paper-control-hover: rgba(240, 234, 250, 0.92); /* Subtle warm lavender hover */
+  --paper-nav: rgba(253, 252, 255, 0.92);
+  --paper-card-wash-top: rgba(253, 252, 255, 0.78);
+  --paper-card-wash-bottom: rgba(247, 245, 251, 0.52);
+  --paper-page-bg: #faf9fc;
+  --paper-detail-bg: #faf9fc;
   --paper-texture-light: rgba(255, 255, 255, 0.18);
-  --paper-theme-color: #faf8fc;
-  --paper-shadow: 0 1px 2px rgba(104, 88, 145, 0.03), 0 4px 12px rgba(104, 88, 145, 0.02);
-  --paper-shadow-lift: 0 1px 2px rgba(104, 88, 145, 0.04), 0 6px 14px rgba(104, 88, 145, 0.025);
+  --paper-theme-color: #faf9fc;
+  --paper-shadow: 0 1px 2px rgba(48, 43, 56, 0.035), 0 4px 12px rgba(48, 43, 56, 0.022);
+  --paper-shadow-lift: 0 1px 2px rgba(48, 43, 56, 0.045), 0 6px 14px rgba(48, 43, 56, 0.028);
   --layout-shell-width: 1168px;
   --layout-reading-width: 760px;
   --layout-page-gutter: 32px;
@@ -62,41 +68,41 @@
   --font-meta: var(--font-mono);
   --font-code: var(--font-config-code), var(--font-mono);
   --font-ui-label: var(--font-mono);
-  --gray-gradient: rgba(226, 220, 235, 0.38), var(--paper-bg);
+  --gray-gradient: rgba(231, 227, 239, 0.38), var(--paper-bg);
   --box-shadow: var(--paper-shadow-lift);
   color-scheme: light;
 }
 
 :root[data-theme='dark'] {
-  --black: 226, 221, 235;
-  --gray: 168, 164, 179;
-  --gray-light: 58, 56, 66;
-  --gray-dark: 225, 221, 232;
-  --paper-bg: #14121a; /* Deep obsidian purple-black */
-  --paper-bg-deep: #0e0c12;
-  --paper-surface: #1e1a26; /* Sleek dark purple slate */
-  --paper-surface-muted: #241f2e;
-  --paper-surface-rgb: 30, 26, 38;
-  --paper-line: rgba(226, 220, 235, 0.08);
-  --paper-line-strong: rgba(226, 220, 235, 0.14);
-  --paper-ink: #eae5f2;
-  --paper-ink-soft: #b6b1c2;
-  --paper-ink-faint: #8a8594;
-  --paper-control: rgba(43, 38, 51, 0.72);
-  --paper-control-hover: rgba(53, 47, 64, 0.88);
-  --paper-nav: rgba(30, 26, 38, 0.92);
-  --paper-card-wash-top: rgba(39, 34, 48, 0.72);
-  --paper-card-wash-bottom: rgba(28, 24, 36, 0.52);
-  --paper-page-bg: linear-gradient(180deg, rgba(20, 18, 26, 0.98) 0%, rgba(14, 12, 18, 0.98) 100%);
+  --black: 233, 229, 241;
+  --gray: 172, 166, 187;
+  --gray-light: 60, 55, 70;
+  --gray-dark: 226, 222, 235;
+  --paper-bg: #1b1825; /* Warm obsidian violet-black */
+  --paper-bg-deep: #14111c;
+  --paper-surface: #241f31; /* Soft dark violet slate */
+  --paper-surface-muted: #2c2740;
+  --paper-surface-rgb: 36, 31, 49;
+  --paper-line: rgba(232, 226, 244, 0.075);
+  --paper-line-strong: rgba(232, 226, 244, 0.13);
+  --paper-ink: #ece8f5;
+  --paper-ink-soft: #bab3c8;
+  --paper-ink-faint: #8d8798;
+  --paper-control: rgba(50, 45, 64, 0.74);
+  --paper-control-hover: rgba(62, 55, 78, 0.88);
+  --paper-nav: rgba(36, 31, 49, 0.92);
+  --paper-card-wash-top: rgba(45, 40, 58, 0.72);
+  --paper-card-wash-bottom: rgba(31, 27, 41, 0.52);
+  --paper-page-bg: linear-gradient(180deg, rgba(27, 24, 37, 0.98) 0%, rgba(20, 17, 28, 0.98) 100%);
   --paper-detail-bg: linear-gradient(
     180deg,
-    rgba(20, 18, 26, 0.98) 0%,
-    rgba(14, 12, 18, 0.98) 100%
+    rgba(27, 24, 37, 0.98) 0%,
+    rgba(20, 17, 28, 0.98) 100%
   );
   --paper-texture-light: rgba(255, 255, 255, 0.035);
   --paper-shadow: 0 1px 2px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
   --paper-shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.16), 0 6px 14px rgba(0, 0, 0, 0.1);
-  --paper-theme-color: #14121a;
+  --paper-theme-color: #1b1825;
   color-scheme: dark;
 }
 
