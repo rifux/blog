@@ -18,9 +18,9 @@ en = "Maple Mono"
 code = "Monaco"
 # Directly selectable in the template: ChillRoundM, LXGW WenKai
 # Chinese reading font
-zh = "system-ui, -apple-system, sans-serif" # Use system fonts as fallback since I don't use Chinese
-# Complete Chinese font file path
-file = "/fonts/ChillRoundM.woff2"
+# zh = "system-ui, -apple-system, sans-serif" # Use system fonts as fallback since I don't use Chinese
+# # Complete Chinese font file path
+# file = "/fonts/ChillRoundM.woff2"
 
 [config.code]
 lightTheme = "catppuccin-latte"
