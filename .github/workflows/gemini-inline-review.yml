@@ -55,8 +55,8 @@ jobs:
 
       - name: Verify reviewer files
         run: |
-          test -f .github/scripts/deepseek-inline-review.mjs
-          test -f .github/deepseek-reviewer.json
+          test -f .github/scripts/gemini-inline-review.mjs
+          test -f .github/gemini-reviewer.json
 
       - name: Run Gemini inline reviewer
         env:
@@ -66,7 +66,7 @@ jobs:
           DEEPSEEK_MODEL: gemini-3.5-flash
           # Use Google's OpenAI-compatible API base URL:
           DEEPSEEK_BASE_URL: https://generativelanguage.googleapis.com/v1beta/openai/
-          REVIEW_CONFIG_PATH: .github/deepseek-reviewer.json
+          REVIEW_CONFIG_PATH: .github/gemini-reviewer.json
           REVIEW_COMMAND: /gemini review
           DRY_RUN: ${{ vars.DRY_RUN }}
-        run: node .github/scripts/deepseek-inline-review.mjs
+        run: node .github/scripts/gemini-inline-review.mjs
