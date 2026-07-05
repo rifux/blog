@@ -1,8 +1,8 @@
 {
   "enabled": true,
-  "reviewLanguage": "zh-CN",
-  "model": "deepseek-v4-flash",
-  "baseUrl": "https://api.deepseek.com",
+  "reviewLanguage": "en-US",
+  "model": "gemini-3.5-flash",
+  "baseUrl": "https://generativelanguage.googleapis.com/v1beta/openai",
   "temperature": 0.1,
   "maxOutputTokens": 1800,
   "requestTimeoutMs": 90000,

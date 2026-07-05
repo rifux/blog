@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * DeepSeek hunk-level inline PR reviewer.
+ * AI hunk-level inline PR reviewer.
  *
  * No npm dependencies required. Uses Node 20 native fetch.
  *
@@ -19,9 +19,9 @@ import crypto from 'node:crypto';
 
 const DEFAULT_CONFIG = {
   enabled: true,
-  reviewLanguage: 'zh-CN',
-  model: 'deepseek-v4-flash',
-  baseUrl: 'https://api.deepseek.com',
+  reviewLanguage: 'en-US',
+  model: 'gemini-3.5-flash',
+  baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
   temperature: 0.1,
   maxOutputTokens: 1800,
   requestTimeoutMs: 90_000,
@@ -546,7 +546,6 @@ async function deepSeekChat({ messages, config }) {
     temperature: config.temperature,
     max_tokens: config.maxOutputTokens,
     response_format: { type: 'json_object' },
-    thinking: { type: 'disabled' },
   };
 
   let lastError;
@@ -680,11 +679,11 @@ function formatReviewComment(comment, config) {
     medium: '🟡',
     low: 'ℹ️',
   };
-  const title = `**${icons[comment.severity] || '💬'} DeepSeek Review · ${comment.severity} · ${comment.category}**`;
+  const title = `**${icons[comment.severity] || '💬'} Gemini Review · ${comment.severity} · ${comment.category}**`;
   const parts = [title, '', truncate(comment.body, 1600)];
 
   if (config.includeSuggestionText && comment.suggestion) {
-    parts.push('', '**建议修复**', truncate(comment.suggestion, 1200));
+    parts.push('', '**SUGGESTED FIX**', truncate(comment.suggestion, 1200));
   }
 
   parts.push(
@@ -782,14 +781,14 @@ function makeReviewBody({ pr, reviewedHunkCount, finalCommentCount, summaries })
     .slice(0, 5)
     .map((s) => `- ${truncate(s, 250)}`);
   return [
-    '## 🤖 DeepSeek Inline Review',
+    '## 🤖 Gemini Inline Review',
     '',
-    `已按 hunk 审查 PR #${pr.number} 的 ${reviewedHunkCount} 个 diff hunk，提交 ${finalCommentCount} 条高置信度 inline 评论。`,
+    `Reviewed ${reviewedHunkCount} diff hunks for PR #${pr.number} and submitted ${finalCommentCount} high-confidence inline comments.`,
     '',
-    summaryLines.length ? '**模型摘要**' : '',
+    summaryLines.length ? '**Model Summary**' : '',
     ...summaryLines,
     '',
-    '<sub>仅评论本次 diff 的 RIGHT-side 新增/修改行；低置信度与纯风格建议已过滤。</sub>',
+    '<sub>Only commenting on new or modified lines (RIGHT-side); low-confidence and style-only suggestions have been filtered.</sub>',
   ]
     .filter((line) => line !== '')
     .join('\n');
@@ -859,14 +858,14 @@ async function postInlineReview({ github, owner, repo, pr, comments, body, confi
     const fallbackBody = [
       body,
       '',
-      '> GitHub 没有接受这些 inline comment 的 line mapping，因此这里退回为普通 PR 评论。',
+      '> GitHub did not accept the line mapping for these inline comments, so they have been posted as a standard PR comment instead.',
       '',
       ...comments.map((comment) =>
         [
           `### ${comment.path}:${comment.line} · ${comment.severity} · ${comment.category}`,
           '',
           comment.body,
-          comment.suggestion ? `\n**建议修复**\n${comment.suggestion}` : '',
+          comment.suggestion ? `\n**SUGGESTED FIX**\n${comment.suggestion}` : '',
         ].join('\n'),
       ),
     ].join('\n');
@@ -881,11 +880,11 @@ async function postInlineReview({ github, owner, repo, pr, comments, body, confi
 async function maybePostNoIssuesComment({ github, owner, repo, pr, reviewedHunkCount, config }) {
   if (!config.postNoIssuesComment) return;
   const body = [
-    '## 🤖 DeepSeek Inline Review',
+    '## 🤖 Gemini Inline Review',
     '',
-    `已按 hunk 审查 PR #${pr.number} 的 ${reviewedHunkCount} 个 diff hunk，未发现达到阈值的高置信度问题。`,
+    `Reviewed ${reviewedHunkCount} diff hunks for PR #${pr.number}. No high-confidence issues found.`,
     '',
-    '<sub>仅评论本次 diff 的 RIGHT-side 新增/修改行；低置信度与纯风格建议已过滤。</sub>',
+    '<sub>Only commenting on new or modified lines (RIGHT-side); low-confidence and style-only suggestions have been filtered.</sub>',
   ].join('\n');
 
   if (config.dryRun) {
