@@ -468,23 +468,7 @@ function buildSystemPrompt(config) {
     '- Avoid duplicate comments. Put one issue on the most relevant line.',
     '- If a suggestion is not exact, make it prose instead of a code patch.',
     '',
-    'Return exactly one JSON object, no markdown fences, with this schema:',
-    '{',
-    '  "summary": "short summary string",',
-    '  "comments": [',
-    '    {',
-    '      "path": "relative/path/from/hunk.path",',
-    '      "line": 123,',
-    '      "severity": "critical|high|medium|low",',
-    '      "category": "bug|security|performance|reliability|maintainability|test|breaking-change|api-misuse",',
-    '      "body": "actionable explanation",',
-    '      "suggestion": "concrete fix or null",',
-    '      "confidence": 0.0',
-    '    }',
-    '  ]',
-    '}',
-    '',
-    'When there are no meaningful issues, return: {"summary":"No high-confidence issues found.","comments":[]}.',
+    'When there are no meaningful issues, return a summary stating no high-confidence issues were found, and an empty comments array.',
   ].join('\n');
 }
 
@@ -514,25 +498,11 @@ function buildUserPrompt({ pr, hunks, config }) {
 }
 
 function parseJsonObject(raw) {
-  const text = String(raw || '').trim();
-  if (!text) throw new Error('Empty model response.');
+  if (!raw || !raw.trim()) throw new Error('Empty model response.');
   try {
-    return JSON.parse(text);
-  } catch (_) {
-    const withoutFence = text
-      .replace(/^```(?:json)?\s*/i, '')
-      .replace(/```$/i, '')
-      .trim();
-    try {
-      return JSON.parse(withoutFence);
-    } catch (_) {
-      const start = withoutFence.indexOf('{');
-      const end = withoutFence.lastIndexOf('}');
-      if (start >= 0 && end > start) {
-        return JSON.parse(withoutFence.slice(start, end + 1));
-      }
-      throw new Error(`Model did not return parseable JSON: ${text.slice(0, 500)}`);
-    }
+    return JSON.parse(raw);
+  } catch (error) {
+    throw new Error(`Engine failed to marshal JSON: ${error.message}\nPayload: ${raw}`);
   }
 }
 
@@ -545,6 +515,64 @@ async function deepSeekChat({ messages, config }) {
     messages,
     temperature: config.temperature,
     max_tokens: config.maxOutputTokens,
+    response_format: {
+      type: 'json_schema',
+      json_schema: {
+        name: 'pr_review',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            summary: { type: 'string' },
+            comments: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  path: { type: 'string' },
+                  line: { type: 'integer' },
+                  severity: {
+                    type: 'string',
+                    enum: ['critical', 'high', 'medium', 'low'],
+                  },
+                  category: {
+                    type: 'string',
+                    enum: [
+                      'bug',
+                      'security',
+                      'performance',
+                      'reliability',
+                      'maintainability',
+                      'test',
+                      'breaking-change',
+                      'api-misuse',
+                    ],
+                  },
+                  body: { type: 'string' },
+                  suggestion: {
+                    type: 'string',
+                    description: 'Leave empty string if no code patch suggestion',
+                  },
+                  confidence: { type: 'number' },
+                },
+                required: [
+                  'path',
+                  'line',
+                  'severity',
+                  'category',
+                  'body',
+                  'suggestion',
+                  'confidence',
+                ],
+                additionalProperties: false,
+              },
+            },
+          },
+          required: ['summary', 'comments'],
+          additionalProperties: false,
+        },
+      },
+    },
   };
 
   let lastError;
