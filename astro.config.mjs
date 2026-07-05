@@ -54,6 +54,12 @@ const resolvedBase =
 export default defineConfig({
   site: resolvedSite,
   base: resolvedBase,
+
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'tap',
+  },
+
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [mathRenderer === 'mathjax' ? rehypeMathjax : rehypeKatex],
