@@ -20,7 +20,7 @@ code = "Monaco"
 # Chinese reading font
 zh = "system-ui, -apple-system, sans-serif" # Use system fonts as fallback since I don't use Chinese
 # Complete Chinese font file path
-file = ""
+file = "/fonts/ChillRoundM-ui-subset.woff2"
 
 [config.code]
 lightTheme = "catppuccin-latte"
