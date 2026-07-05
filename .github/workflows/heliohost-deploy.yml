@@ -48,15 +48,15 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # lftp looks for this specific env var
         run: |
           lftp <<EOF
-          # prevent silent deployment failures.
-          set cmd:fail-exit yes
-          # set host key configurations before opening connection
+          # config to autoconfirm and exit on fail
+          cat << 'EOF_CONFIG' > ~/.lftprc
           set sftp:auto-confirm yes
+          set cmd:fail-exit yes
+          EOF_CONFIG
 
-          # open connection using the env pass
-          open -u "${USER}" --env-password -p 1373 "sftp://${HOST}"
-
-          # mirror to the correct httpdocs root directory
+          # connect using the env-password flag on CLI
+          lftp -u "${USER}" --env-password -p 1373 "sftp://${HOST}" <<EOF
+          # mirror to the httpdocs root directory
           lcd ./dist
           mirror -R --delete --verbose . "/${USER}/httpdocs/"
           bye
