@@ -40,6 +40,16 @@ async function generateIcons() {
     .png()
     .toBuffer();
 
+  // Ensure public/images directory exists
+  const imagesDir = `${PUBLIC_DIR}/images`;
+  if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
+  }
+
+  // Save the high-res masked version as your main logo
+  console.log('Generating images/logo.png...');
+  await sharp(maskedImage).png().toFile(`${imagesDir}/logo.png`);
+
   const targets = [
     { name: 'favicon-16x16.png', size: 16 },
     { name: 'favicon-32x32.png', size: 32 },
