@@ -1,11 +1,11 @@
 [config.site]
-title = "navfolio"
-description = "A personal navigation portfolio starter built with Astro."
-pageTitle = "navfolio | Digital Publication Space"
-pageDescription = "A calm AI-native personal publication space for notes, links, and writing."
-url = "https://astro.navfolio.site"
-repository = "https://github.com/dodolalorc/astro-navfolio"
-footerNote = "Released as an open-source starter."
+title = "rifux ᗜᴗᗜ"
+description = "A personal publication space and systems lounge."
+pageTitle = "rifux | My personal blog! ᗜᴗᗜ"
+pageDescription = "A calm personal publication space for notes, automation, and writing."
+url = "https://rifux.dev"
+repository = "https://github.com/rifux/blog"
+footerNote = "Articles from a dreaming researcher!"
 
 [config.theme]
 # Available color palettes：
@@ -45,11 +45,11 @@ placeholder = "Search notes..."
 maxResults = 6
 
 [config.pages.blog]
-title = "Writing notes"
-kicker = "Notebook archive"
-subtitle = "Notes from the margins."
-note = "Field notes, drafts, and technical margins arranged for slow browsing."
-postsPerPage = 6
+title = "Lore"
+kicker = "The Great Archive"
+subtitle = "Chronicles of a dreaming researcher."
+note = "Scribbled thoughts, system deep-dives, and technical spells arranged for a slow, yet quiet reading."
+postsPerPage = 8
 # Date format template used by date-fns.
 dateFormat = "yyyy-MM-dd"
 # Meta information separator. Can use symbols like "|", "/", or the special value "icon".
@@ -60,27 +60,27 @@ coverImageStyle = "mask"
 
 [config.pages.blog.categories]
 title = "Categories"
-kicker = "Browse notes"
-subtitle = ""
-note = "A quiet index of recurring topics, gathered from article frontmatter."
+kicker = "Constellations"
+subtitle = "A map of recurring magic."
+note = "A quiet index of tags and topics, charting different paths of systems automation."
 
 [config.pages.blog.series]
 title = "Series"
 kicker = "Reading paths"
-subtitle = ""
+subtitle = "Chapters of the journey."
 note = "Connected notes that can be followed in the order they were written."
 
 [config.pages.projects]
-title = "Projects"
-kicker = "Project shelf"
-subtitle = "Small tools and site systems."
-note = "A compact shelf for implementation choices, releases, and publishing experiments."
+title = "The Forge"
+kicker = "Projects"
+subtitle = "A compact shelf of grimoires."
+note = ""
 
 [config.pages.vibe]
-title = "vibe"
+title = "Almanac"
 kicker = ""
-subtitle = "Life and coding fragments."
-note = "Not formal enough for blog posts, but still part of the story."
+subtitle = "The Traveler's Ledger"
+note = "A chronological timeline tracking physical coordinates, hackathon achievements, and favorite scrolls discovered along the way."
 showTrail = true
 
 [config.comments.giscus]
@@ -95,7 +95,7 @@ emit_metadata = "0"
 input_position = "top"
 light_theme = "light"
 dark_theme = "dark"
-lang = "zh-CN"
+lang = "en-US"
 loading = "lazy"
 
 [config.comments.utterances]
@@ -106,22 +106,22 @@ theme = "github-light"
 
 [config.comments.waline]
 server_url = ""
-lang = "zh-CN"
+lang = "en-US"
 dark = "html.dark"
 pageview = true
 comment = true
 
 [config.profile]
-name = "navfolio"
-handle = "@navfolio"
-role = "A Cat Developer"
+name = "Vladimir Blinkov"
+handle = "@rifux"
+role = "DevOps Magician"
 company = "Independent Studio"
 location = "Remote"
-email = "hello@navfolio.site"
-website = "https://astro.navfolio.site/"
-github = "https://github.com/dodolalorc/astro-navfolio"
-meta = "Open-source maintainer"
-avatar = "/images/logo.png"
+email = "contact@rifux.dev"
+website = "https://rifux.dev"
+github = "https://github.com/rifux/blog"
+meta = "Open-source enthusiast"
+avatar = "https://avatars.githubusercontent.com/u/87264036?v=4"
 
 [[config.topNav.links]]
 label = "Home"
@@ -136,7 +136,7 @@ label = "Projects"
 href = "/projects"
 
 [[config.topNav.links]]
-label = "Vibe"
+label = "Almanac"
 href = "/vibe"
 
 [[config.topNav.links]]
@@ -147,22 +147,19 @@ href = "/about"
 
 [config.home.quote]
 text = [
-  "Navigate your world,",
-  "Showcase your story,",
-  "and keep everything in one place.",
+  "Orchestrate the chaos,",
+  "automate the mundane,",
+  "and engineer a quiet resilience.",
 ]
 image = "/images/logo-with-name.png"
 
 [config.home.intro]
-title = "here is navfolio"
-name = "navfolio"
+title = "here is rifux"
+name = "rifux"
 body = [
-  "The name combines \"Navigation\" and \"Portfolio\".",
-  "Navfolio prioritizes lightweight organization, seamless reading, and developer-friendly aesthetics.",
-  "It’s less a resume than a personal OS for your ideas, projects, notes, and online presence.",
-  "这个名字融合了“导航”与“作品集”。",
-  "Navfolio 专注于轻量级组织、流畅的阅读体验，以及对开发者友好的美学设计。",
-  "它不像一份简历，更像是一个属于你自己的个人操作系统——承载想法、项目、笔记与网络足迹。",
+  "Nice to meet you! I'm Vladimir Blinkov — a DevOps magician and an advanced tinkerer.",
+  "I craft environments through Infrastructure as Code (IaC), adore pipelines and CI/CD.",
+  "This space serves as my lounge and a digital workshop, where I worship Kubernetes and align software in the way it works. ᗜᴗᗜ",
 ]
 image = "/images/logo-cat.png"
 
@@ -175,39 +172,39 @@ startDate = ""
 dateArchiveBaseHref = ""
 
 [[config.home.navigation]]
-icon = "compass"
-title = "Portfolio"
-subtitle = "Selected work and case studies"
-href = "https://astro.navfolio.site/"
+icon = "spark"
+title = "The Great Archive"
+subtitle = "Technical articles"
+href = "/blog"
 
 [[config.home.navigation]]
-icon = "pen"
-title = "Blog"
-subtitle = "Essays, notes, and field reports"
-href = "/blog"
+icon = "compass"
+title = "Portfolio"
+subtitle = "Selected work"
+href = "https://github.com/rifux?tab=repositories"
 
 [[config.home.navigation]]
 icon = "briefcase"
 title = "Resume"
-subtitle = "Career profile and experience"
-href = "https://github.com/dodolalorc/navfolio"
+subtitle = "Career profile"
+href = "https://github.com/rifux"
 
 [[config.home.navigation]]
 icon = "github"
-title = "Open Source"
-subtitle = "Code, experiments, and tools"
-href = "https://github.com/dodolalorc/astro-navfolio"
+title = "Open GitHub"
+subtitle = "FOSS shenanigans"
+href = "https://github.com/rifux"
 
 [[config.home.links]]
 label = "GitHub"
 icon = "github"
-tooltip = "https://github.com/dodolalorc/astro-navfolio"
+tooltip = "https://github.com/rifux"
 copy = false
 
 [[config.home.links]]
 label = "LinkedIn"
 icon = "linkedin"
-tooltip = "https://www.linkedin.com/"
+tooltip = ""
 copy = false
 
 [[config.home.links]]
@@ -225,13 +222,13 @@ copy = false
 [[config.home.links]]
 label = "Email"
 icon = "mail"
-tooltip = "hello@navfolio.site"
+tooltip = "contact@rifux.dev"
 copy = true
 
 [[config.home.links]]
 label = "QQ"
 icon = "qq"
-tooltip = "123456789"
+tooltip = ""
 copy = true
 
 [[config.home.links]]
@@ -243,43 +240,43 @@ copy = true
 [[config.home.links]]
 label = "Weibo"
 icon = "weibo"
-tooltip = "https://weibo.com/"
+tooltip = ""
 copy = false
 
 [[config.home.links]]
 label = "Xiaohongshu"
 icon = "xiaohongshu"
-tooltip = "https://www.xiaohongshu.com/"
+tooltip = ""
 copy = false
 
 [[config.home.links]]
 label = "Zhihu"
 icon = "zhihu"
-tooltip = "https://www.zhihu.com/"
+tooltip = ""
 copy = false
 
 [[config.home.links]]
 label = "Bilibili"
 icon = "bilibili"
-tooltip = "https://www.bilibili.com/"
+tooltip = ""
 copy = false
 
 [[config.home.doing]]
-text = "Shipping a personal dashboard template"
+text = "Publish the Great Archive"
 mark = "01"
 
-[[config.home.doing]]
-text = "Writing reusable notes for future projects"
-mark = "02"
-
-[[config.home.doing]]
-text = "Improving static-site publishing workflow"
-mark = "03"
-
-[[config.home.doing]]
-text = "Collecting useful developer resources"
-mark = "04"
-
-[[config.home.doing]]
-text = "Exploring small open-source ideas"
-mark = "05"
+# [[config.home.doing]]
+# text = ""
+# mark = "02"
+#
+# [[config.home.doing]]
+# text = ""
+# mark = "03"
+#
+# [[config.home.doing]]
+# text = ""
+# mark = "04"
+#
+# [[config.home.doing]]
+# text = ""
+# mark = "05"
