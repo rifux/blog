@@ -11,6 +11,7 @@ footerNote = "Articles from a dreaming researcher!"
 # Available color palettes：
 # green-soft, green-vivid, rose-soft, pink-soft, purple-soft, blue-soft, orange-soft, brown-soft
 palette = "purple-soft"
+lang = "en"
 
 [config.fonts]
 # English and code-style UI fonts
