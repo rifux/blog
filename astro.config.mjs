@@ -14,6 +14,7 @@ import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 
 import rehypeResponsiveTables from './src/utils/rehype-responsive-tables';
+import remarkMermaid from './src/utils/remark-mermaid';
 
 /**
  * @param {unknown} value
@@ -75,7 +76,7 @@ export default defineConfig({
   },
 
   markdown: {
-    remarkPlugins: [remarkMath],
+    remarkPlugins: [remarkMath, remarkMermaid],
     rehypePlugins: [
       mathRenderer === 'mathjax' ? rehypeMathjax : rehypeKatex,
       rehypeResponsiveTables,
