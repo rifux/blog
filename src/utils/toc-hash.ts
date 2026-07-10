@@ -1,10 +1,8 @@
 import GithubSlugger from 'github-slugger';
 
-const hashSlugger = new GithubSlugger();
-
 const normalizeIdValue = (value: string): string => {
-  hashSlugger.reset();
-  return hashSlugger.slug(value);
+  const slugger = new GithubSlugger();
+  return slugger.slug(value);
 };
 
 const safeDecodeHashPart = (value: string): string => {
