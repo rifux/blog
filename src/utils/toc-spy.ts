@@ -38,7 +38,12 @@ const getSectionFromHash = (hash: string): HTMLElement | null => {
     }
   }
 
-  return null;
+  const articleHeadings = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      '.article-content h2[id], .article-content h3[id], .article-content h4[id], .article-content h5[id], .article-content h6[id]',
+    ),
+  );
+  return articleHeadings.find((heading) => normalizeHash(`#${heading.id}`) === normalizedHash) ?? null;
 };
 
 const setBranchExpanded = (item: HTMLElement, expanded: boolean): void => {
