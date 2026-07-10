@@ -23,7 +23,12 @@ const DEFAULT_CONFIG = {
   model: 'gemini-3-flash-preview',
   baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
   temperature: 0.1,
-  maxOutputTokens: 1800,
+  // Gemini 3 counts thinking tokens + visible output tokens against the same
+  // budget. The previous value (1800) was fine for DeepSeek, where max_tokens
+  // is visible-only, but on Gemini 3 with thinking on by default it gets
+  // consumed by chain-of-thought and the visible JSON gets cut off mid-object.
+  // 8192 leaves comfortable room for the schema-constrained JSON payload.
+  maxOutputTokens: 8192,
   requestTimeoutMs: 90_000,
   maxRetries: 3,
   minSeverity: 'medium',
@@ -515,6 +520,14 @@ async function deepSeekChat({ messages, config }) {
     messages,
     temperature: config.temperature,
     max_tokens: config.maxOutputTokens,
+    // Gemini 3 (and 2.5) ship with thinking enabled by default. On Google's
+    // OpenAI-compatible endpoint, `max_tokens` covers thinking + visible
+    // output together, so the visible JSON would get truncated mid-object and
+    // fail JSON.parse on the client side. This is a strict-schema
+    // classification task — we don't need chain-of-thought — so disable
+    // thinking entirely. The field is ignored by DeepSeek's endpoint, so it's
+    // safe to send unconditionally.
+    reasoning_effort: 'none',
     response_format: {
       type: 'json_schema',
       json_schema: {
@@ -605,11 +618,37 @@ async function deepSeekChat({ messages, config }) {
       }
 
       const json = JSON.parse(text);
-      const content = json?.choices?.[0]?.message?.content;
-      if (!content)
+      const choice = json?.choices?.[0];
+      const content = choice?.message?.content;
+      const finishReason = choice?.finish_reason;
+      const usage = json?.usage || {};
+
+      if (!content) {
         throw new Error(
-          `DeepSeek response missing choices[0].message.content: ${text.slice(0, 800)}`,
+          `DeepSeek response missing choices[0].message.content ` +
+            `(finish_reason=${finishReason}, usage=${JSON.stringify(usage)}, ` +
+            `body=${text.slice(0, 800)})`,
         );
+      }
+
+      // Surface truncation explicitly. Schema enforcement only guarantees that
+      // the produced tokens are schema-valid *up to the cutoff* — a valid
+      // prefix is still not parseable JSON. Without this check the failure
+      // surfaces downstream as a misleading "marshal JSON" error pointing at
+      // our parser instead of at the real cause.
+      if (finishReason === 'length') {
+        throw new Error(
+          `Response truncated (finish_reason='length'). ` +
+            `Visible content=${content.length} chars, usage=${JSON.stringify(usage)}. ` +
+            `Raise maxOutputTokens or set reasoning_effort='none'. ` +
+            `Partial tail: …${content.slice(-200)}`,
+        );
+      }
+
+      if (finishReason && finishReason !== 'stop') {
+        warn('Non-stop finish_reason from model', { finishReason, usage });
+      }
+
       return parseJsonObject(content);
     } catch (error) {
       clearTimeout(timeout);
