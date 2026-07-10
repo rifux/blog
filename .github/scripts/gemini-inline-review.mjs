@@ -20,7 +20,7 @@ import crypto from 'node:crypto';
 const DEFAULT_CONFIG = {
   enabled: true,
   reviewLanguage: 'en-US',
-  model: 'gemini-3.5-flash',
+  model: 'gemini-3-flash-preview',
   baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
   temperature: 0.1,
   maxOutputTokens: 1800,

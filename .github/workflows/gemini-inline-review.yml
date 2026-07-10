@@ -51,7 +51,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Verify reviewer files
         run: |
@@ -62,8 +62,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DEEPSEEK_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # Set the target model to Gemini 3.5 Flash:
-          DEEPSEEK_MODEL: gemini-3.5-flash
+          # Set the target model to Gemini 3 Flash:
+          DEEPSEEK_MODEL: gemini-3-flash-preview
           # Use Google's OpenAI-compatible API base URL:
           DEEPSEEK_BASE_URL: https://generativelanguage.googleapis.com/v1beta/openai/
           REVIEW_CONFIG_PATH: .github/gemini-reviewer.json
